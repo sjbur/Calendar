@@ -1,13 +1,81 @@
 import { useUnit } from 'effector-react';
-import { format, getHours, getMinutes, setMinutes, setHours } from 'date-fns';
-import { $calendar, openEventModal, selectEvent } from '@entities/calendar/model/store';
+import { format, getHours, getMinutes, setMinutes, setHours, isSameDay } from 'date-fns';
+import { $calendar } from '@/entities/calendar';
+import { openEventModal, selectEvent } from '@/features/eventManagement';
+import { Event } from '@/entities/calendar';
+
+interface EventWithLayout extends Event {
+  column: number;
+  totalColumns: number;
+}
 
 export const DayView = () => {
   const { selectedDate, events } = useUnit($calendar);
-
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  const calculateEventPosition = (event: { start: Date; end: Date }) => {
+  const getDayEvents = () => {
+    return events.filter((event) => isSameDay(new Date(event.start), selectedDate));
+  };
+
+  const getEventTime = (date: Date) => getHours(date) * 60 + getMinutes(date);
+
+  const layoutEvents = (events: Event[]): EventWithLayout[] => {
+    if (events.length === 0) return [];
+
+    // Sort events by start time and then by end time
+    const sortedEvents = [...events].sort((a, b) => {
+      const startDiff = getEventTime(new Date(a.start)) - getEventTime(new Date(b.start));
+      if (startDiff === 0) {
+        return getEventTime(new Date(b.end)) - getEventTime(new Date(a.end));
+      }
+      return startDiff;
+    });
+
+    const columns: Event[][] = [];
+    const eventsWithLayout: EventWithLayout[] = [];
+
+    sortedEvents.forEach((event) => {
+      const eventStart = getEventTime(new Date(event.start));
+      const eventEnd = getEventTime(new Date(event.end));
+
+      // Find a column where the event doesn't overlap
+      let columnIndex = 0;
+      while (
+        columns[columnIndex]?.some((placedEvent) => {
+          const placedStart = getEventTime(new Date(placedEvent.start));
+          const placedEnd = getEventTime(new Date(placedEvent.end));
+          return !(eventEnd <= placedStart || eventStart >= placedEnd);
+        })
+      ) {
+        columnIndex++;
+      }
+
+      if (!columns[columnIndex]) {
+        columns[columnIndex] = [];
+      }
+      columns[columnIndex].push(event);
+
+      // Find all events that overlap with current event
+      const overlappingEvents = sortedEvents.filter((otherEvent) => {
+        if (otherEvent === event) return false;
+        const otherStart = getEventTime(new Date(otherEvent.start));
+        const otherEnd = getEventTime(new Date(otherEvent.end));
+        return !(eventEnd <= otherStart || eventStart >= otherEnd);
+      });
+
+      const totalColumns = overlappingEvents.length + 1;
+
+      eventsWithLayout.push({
+        ...event,
+        column: columnIndex,
+        totalColumns: Math.max(columns.length, totalColumns),
+      });
+    });
+
+    return eventsWithLayout;
+  };
+
+  const calculateEventPosition = (event: EventWithLayout) => {
     const start = new Date(event.start);
     const end = new Date(event.end);
     const startMinutes = getHours(start) * 60 + getMinutes(start);
@@ -15,14 +83,17 @@ export const DayView = () => {
     const duration = endMinutes - startMinutes;
 
     const hourHeight = 48; // h-12 = 48px
+    const containerHeight = hourHeight * 24;
+    const columnWidth = 100 / event.totalColumns;
+    const gap = 4; // 4px gap between events
 
     return {
-      top: `${(startMinutes / 60) * hourHeight}px`,
-      height: `${(duration / 60) * hourHeight}px`,
+      top: `${(startMinutes / (24 * 60)) * containerHeight}px`,
+      height: `${(duration / (24 * 60)) * containerHeight}px`,
+      left: `calc(${event.column * columnWidth}% + ${gap}px)`,
+      width: `calc(${columnWidth}% - ${gap * 2}px)`,
       position: 'absolute' as const,
-      left: '4px',
-      right: '4px',
-      zIndex: 1,
+      zIndex: 10,
     };
   };
 
@@ -32,6 +103,8 @@ export const DayView = () => {
     newDate.setMinutes(0);
     openEventModal(newDate);
   };
+
+  const dayEvents = layoutEvents(getDayEvents());
 
   return (
     <div className="flex flex-col h-full">
@@ -51,35 +124,29 @@ export const DayView = () => {
             </div>
           ))}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 relative">
           {hours.map((hour) => (
             <div
               key={hour}
-              className="h-12 border-b hover:bg-gray-50 cursor-pointer relative"
+              className="h-12 border-b hover:bg-gray-50 cursor-pointer"
               onClick={() => handleTimeSlotClick(hour)}
+            />
+          ))}
+          {dayEvents.map((event) => (
+            <div
+              key={event.id}
+              className="absolute bg-calendar-blue text-white p-1 text-sm rounded hover:bg-blue-600 transition-colors duration-200"
+              style={calculateEventPosition(event)}
+              onClick={(e) => {
+                e.stopPropagation();
+                selectEvent(event);
+              }}
+              title={`${event.title} (${format(new Date(event.start), 'HH:mm')} - ${format(new Date(event.end), 'HH:mm')})`}
             >
-              {events
-                .filter((event) => {
-                  const eventStart = new Date(event.start);
-                  return getHours(eventStart) === hour;
-                })
-                .map((event) => (
-                  <div
-                    key={event.id}
-                    className="absolute left-0 right-0 bg-calendar-blue text-white p-1 text-sm rounded mx-1"
-                    style={calculateEventPosition(event)}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      selectEvent(event);
-                    }}
-                  >
-                    <div className="truncate">{event.title}</div>
-                    <div className="text-xs">
-                      {format(new Date(event.start), 'HH:mm')} -{' '}
-                      {format(new Date(event.end), 'HH:mm')}
-                    </div>
-                  </div>
-                ))}
+              <div className="truncate">{event.title}</div>
+              <div className="text-xs">
+                {format(new Date(event.start), 'HH:mm')} - {format(new Date(event.end), 'HH:mm')}
+              </div>
             </div>
           ))}
         </div>

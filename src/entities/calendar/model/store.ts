@@ -12,70 +12,32 @@ import {
   subWeeks,
   subDays,
 } from 'date-fns';
-
-export interface Event {
-  id: string;
-  title: string;
-  start: Date;
-  end: Date;
-  description?: string;
-  color?: string;
-}
-
-interface CalendarState {
-  selectedDate: Date;
-  events: Event[];
-  view: 'month' | 'week' | 'day';
-  isEventModalOpen: boolean;
-  selectedEvent: Event | null;
-}
+import { CalendarState, Event } from './types';
+import {
+  goToNextMonth,
+  goToPrevMonth,
+  goToNextWeek,
+  goToPrevWeek,
+  goToNextDay,
+  goToPrevDay,
+  goToToday,
+  setView,
+} from '@/features/calendarNavigation/model/store';
+import { addEvent, updateEvent, removeEvent } from '@/features/eventManagement/model/store';
 
 // Events
 export const setSelectedDate = createEvent<Date>();
-export const setView = createEvent<'month' | 'week' | 'day'>();
-export const addEvent = createEvent<Event>();
-export const updateEvent = createEvent<Event>();
-export const removeEvent = createEvent<string>();
 export const openEventModal = createEvent<Date>();
 export const closeEventModal = createEvent();
 export const selectEvent = createEvent<Event>();
-
-// Navigation events
-export const goToNextMonth = createEvent();
-export const goToPrevMonth = createEvent();
-export const goToNextWeek = createEvent();
-export const goToPrevWeek = createEvent();
-export const goToToday = createEvent();
-export const goToNextDay = createEvent();
-export const goToPrevDay = createEvent();
 
 // Main store
 export const $calendar = createStore<CalendarState>({
   view: 'week',
   selectedDate: new Date(),
-  isEventModalOpen: false,
-  selectedEvent: null,
   events: [],
 })
   .on(setView, (state, view) => ({ ...state, view }))
-  .on(setSelectedDate, (state, date) => ({ ...state, selectedDate: date }))
-  .on(openEventModal, (state, date) => {
-    console.log('Opening modal with date:', date);
-    return {
-      ...state,
-      selectedDate: date,
-      isEventModalOpen: true,
-      selectedEvent: null,
-    };
-  })
-  .on(closeEventModal, (state) => {
-    console.log('Closing modal');
-    return {
-      ...state,
-      isEventModalOpen: false,
-      selectedEvent: null,
-    };
-  })
   .on(addEvent, (state, event) => ({
     ...state,
     events: [...state.events, { ...event, id: Date.now().toString() }],
@@ -87,11 +49,6 @@ export const $calendar = createStore<CalendarState>({
   .on(removeEvent, (state, eventId) => ({
     ...state,
     events: state.events.filter((event) => event.id !== eventId),
-  }))
-  .on(selectEvent, (state, event) => ({
-    ...state,
-    selectedEvent: event,
-    isEventModalOpen: true,
   }))
   .on(goToNextMonth, (state) => ({
     ...state,
@@ -162,19 +119,21 @@ $dayEvents.on(getDayEventsFx.doneData, (_, events) => events);
 
 // Samples for automatic updates
 sample({
-  clock: $calendar,
-  fn: (state) => state.selectedDate,
+  clock: $calendar.map((state) => state.selectedDate),
   target: getWeekDaysFx,
 });
 
 sample({
-  clock: $calendar,
-  fn: (state) => state.selectedDate,
+  clock: getWeekDaysFx.doneData,
+  target: $weekDays,
+});
+
+sample({
+  clock: $calendar.map((state) => state.selectedDate),
   target: getMonthDaysFx,
 });
 
 sample({
-  clock: $calendar,
-  fn: (state) => ({ date: state.selectedDate, events: state.events }),
-  target: getDayEventsFx,
+  clock: getMonthDaysFx.doneData,
+  target: $monthDays,
 });

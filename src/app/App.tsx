@@ -1,8 +1,7 @@
 import { Calendar } from '@widgets/calendar';
-import { EventModal } from '@shared/ui/EventModal';
-import '@/index.css';
+import { EventModal } from '@features/eventManagement';
 
-function App() {
+export const App = () => {
   return (
     <div className="min-h-screen bg-white">
       <header className="bg-white border-b border-calendar-border px-6 py-3">
@@ -14,6 +13,6 @@ function App() {
       </main>
     </div>
   );
-}
+};
 
 export default App;
