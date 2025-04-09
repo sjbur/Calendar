@@ -41,12 +41,14 @@ export const Calendar = () => {
               className="p-2 rounded hover:bg-gray-100"
               onClick={() => goToPrevMonth()}
               title="Previous Month"
+              aria-label="Previous Month"
             >
               <ArrowLeft />
             </button>
             <button
               className="px-4 py-2 rounded bg-calendar-blue text-white hover:bg-blue-600"
               onClick={() => goToToday()}
+              aria-label="Go to Today"
             >
               Today
             </button>
@@ -54,6 +56,7 @@ export const Calendar = () => {
               className="p-2 rounded hover:bg-gray-100"
               onClick={() => goToNextMonth()}
               title="Next Month"
+              aria-label="Next Month"
             >
               <ArrowRight />
             </button>
@@ -66,12 +69,14 @@ export const Calendar = () => {
               className="p-2 rounded hover:bg-gray-100"
               onClick={() => goToPrevWeek()}
               title="Previous Week"
+              aria-label="Previous Week"
             >
               <ArrowLeft />
             </button>
             <button
               className="px-4 py-2 rounded bg-calendar-blue text-white hover:bg-blue-600"
               onClick={() => goToToday()}
+              aria-label="Go to Today"
             >
               Today
             </button>
@@ -79,6 +84,7 @@ export const Calendar = () => {
               className="p-2 rounded hover:bg-gray-100"
               onClick={() => goToNextWeek()}
               title="Next Week"
+              aria-label="Next Week"
             >
               <ArrowRight />
             </button>
@@ -91,12 +97,14 @@ export const Calendar = () => {
               className="p-2 rounded hover:bg-gray-100"
               onClick={() => goToPrevDay()}
               title="Previous Day"
+              aria-label="Previous Day"
             >
               <ArrowLeft />
             </button>
             <button
               className="px-4 py-2 rounded bg-calendar-blue text-white hover:bg-blue-600"
               onClick={() => goToToday()}
+              aria-label="Go to Today"
             >
               Today
             </button>
@@ -104,6 +112,7 @@ export const Calendar = () => {
               className="p-2 rounded hover:bg-gray-100"
               onClick={() => goToNextDay()}
               title="Next Day"
+              aria-label="Next Day"
             >
               <ArrowRight />
             </button>
@@ -119,7 +128,9 @@ export const Calendar = () => {
       <div className="flex items-center justify-between mb-4">
         <ViewSwitcher />
         <div className="flex items-center gap-4">
-          <h2 className="text-xl font-semibold">{format(selectedDate, 'MMMM yyyy')}</h2>
+          <h2 className="text-xl font-semibold" role="heading" aria-level={1}>
+            {format(selectedDate, 'MMMM yyyy')}
+          </h2>
           {handleNavigation()}
         </div>
       </div>

@@ -59,6 +59,8 @@ export const MonthView = () => {
           return (
             <div
               key={day.toString()}
+              role="button"
+              aria-label={`day ${format(day, 'd')} ${isCurrentMonth ? 'current month' : 'other month'}`}
               className={`p-2 min-h-[100px] border transition-colors duration-200 
                 ${isCurrentMonth ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'} 
                 ${isToday ? 'border-calendar-blue ring-1 ring-calendar-blue' : 'border-gray-200'} 
@@ -72,6 +74,8 @@ export const MonthView = () => {
                 {dayEvents.slice(0, 3).map((event) => (
                   <div
                     key={event.id}
+                    role="button"
+                    aria-label={`event ${event.title}`}
                     className="text-sm p-1 rounded bg-calendar-blue text-white truncate cursor-pointer hover:bg-blue-600 transition-colors duration-200"
                     onClick={(e) => handleEventClick(event, e)}
                     title={event.title}

@@ -3,7 +3,7 @@ import { $calendar } from '@/entities/calendar';
 import { setView } from '@/features/calendarNavigation';
 
 export const ViewSwitcher = () => {
-  const { view } = useUnit($calendar);
+  const [{ view }, setViewFn] = useUnit([$calendar, setView]);
 
   return (
     <div className="flex gap-4">
@@ -11,7 +11,7 @@ export const ViewSwitcher = () => {
         className={`px-4 py-2 rounded ${
           view === 'day' ? 'bg-calendar-blue text-white' : 'bg-calendar-hover'
         }`}
-        onClick={() => setView('day')}
+        onClick={() => setViewFn('day')}
       >
         Day
       </button>
@@ -19,7 +19,7 @@ export const ViewSwitcher = () => {
         className={`px-4 py-2 rounded ${
           view === 'week' ? 'bg-calendar-blue text-white' : 'bg-calendar-hover'
         }`}
-        onClick={() => setView('week')}
+        onClick={() => setViewFn('week')}
       >
         Week
       </button>
@@ -27,7 +27,7 @@ export const ViewSwitcher = () => {
         className={`px-4 py-2 rounded ${
           view === 'month' ? 'bg-calendar-blue text-white' : 'bg-calendar-hover'
         }`}
-        onClick={() => setView('month')}
+        onClick={() => setViewFn('month')}
       >
         Month
       </button>

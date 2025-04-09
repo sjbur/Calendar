@@ -111,7 +111,7 @@ export const DayView = () => {
       <div className="flex">
         <div className="flex-none w-20"></div>
         <div className="flex-1">
-          <div className="text-center font-semibold p-2">
+          <div className="text-center font-semibold p-2" role="heading" aria-level={2}>
             {format(selectedDate, 'EEEE, MMMM d')}
           </div>
         </div>
@@ -119,7 +119,12 @@ export const DayView = () => {
       <div className="flex flex-1 overflow-auto">
         <div className="flex-none w-20 border-r bg-white">
           {hours.map((hour) => (
-            <div key={hour} className="h-12 text-right pr-2 text-sm text-gray-500 border-b">
+            <div
+              key={hour}
+              className="h-12 text-right pr-2 text-sm text-gray-500 border-b"
+              role="time"
+              aria-label={`${format(setMinutes(setHours(new Date(), hour), 0), 'HH:00')}`}
+            >
               {format(setMinutes(setHours(new Date(), hour), 0), 'HH:00')}
             </div>
           ))}
@@ -128,6 +133,8 @@ export const DayView = () => {
           {hours.map((hour) => (
             <div
               key={hour}
+              role="button"
+              aria-label={`time slot ${format(setMinutes(setHours(new Date(), hour), 0), 'HH:00')}`}
               className="h-12 border-b hover:bg-gray-50 cursor-pointer"
               onClick={() => handleTimeSlotClick(hour)}
             />
@@ -135,6 +142,8 @@ export const DayView = () => {
           {dayEvents.map((event) => (
             <div
               key={event.id}
+              role="button"
+              aria-label={`event ${event.title}`}
               className="absolute bg-calendar-blue text-white p-1 text-sm rounded hover:bg-blue-600 transition-colors duration-200"
               style={calculateEventPosition(event)}
               onClick={(e) => {

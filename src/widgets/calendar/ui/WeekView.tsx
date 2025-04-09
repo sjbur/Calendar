@@ -11,8 +11,7 @@ interface EventWithLayout extends Event {
 }
 
 export const WeekView = () => {
-  const { selectedDate, events } = useUnit($calendar);
-  const weekDays = useUnit($weekDays);
+  const [{ selectedDate, events }, weekDays] = useUnit([$calendar, $weekDays]);
 
   useEffect(() => {
     getWeekDaysFx(selectedDate);
@@ -137,6 +136,8 @@ export const WeekView = () => {
               {hours.map((hour) => (
                 <div
                   key={hour}
+                  role="button"
+                  aria-label={`time slot ${format(setMinutes(setHours(new Date(), hour), 0), 'HH:00')}`}
                   className="h-12 border-b border-r hover:bg-gray-50 cursor-pointer"
                   onClick={() => handleTimeSlotClick(day, hour)}
                 />
