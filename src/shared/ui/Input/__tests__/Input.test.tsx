@@ -11,10 +11,10 @@ describe('Input', () => {
   it('should handle value changes', () => {
     const handleChange = vi.fn();
     render(<Input label="Test Label" onChange={handleChange} />);
-    
+
     const input = screen.getByLabelText('Test Label');
     fireEvent.change(input, { target: { value: 'test value' } });
-    
+
     expect(handleChange).toHaveBeenCalled();
   });
 
@@ -27,4 +27,4 @@ describe('Input', () => {
     render(<Input label="Test Label" type="password" />);
     expect(screen.getByLabelText('Test Label')).toHaveAttribute('type', 'password');
   });
-}); 
+});

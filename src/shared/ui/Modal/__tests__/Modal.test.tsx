@@ -35,4 +35,4 @@ describe('Modal', () => {
     expect(screen.getByText('Modal Content')).toBeInTheDocument();
     expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
   });
-}); 
+});

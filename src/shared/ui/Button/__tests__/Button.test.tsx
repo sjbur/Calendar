@@ -11,7 +11,7 @@ describe('Button', () => {
   it('should handle click events', () => {
     const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Test Button</Button>);
-    
+
     fireEvent.click(screen.getByText('Test Button'));
     expect(handleClick).toHaveBeenCalled();
   });
@@ -20,4 +20,4 @@ describe('Button', () => {
     render(<Button disabled>Test Button</Button>);
     expect(screen.getByText('Test Button')).toBeDisabled();
   });
-}); 
+});
