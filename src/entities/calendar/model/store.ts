@@ -37,7 +37,12 @@ export const $calendar = createStore<CalendarState>({
   selectedDate: new Date(),
   events: [],
 })
+  .on(setSelectedDate, (state, date) => ({ ...state, selectedDate: date }))
   .on(setView, (state, view) => ({ ...state, view }))
+  .on(selectEvent, (state, event) => ({
+    ...state,
+    events: [...state.events, event],
+  }))
   .on(addEvent, (state, event) => ({
     ...state,
     events: [...state.events, { ...event, id: Date.now().toString() }],
