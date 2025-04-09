@@ -25,7 +25,7 @@ vi.mock('@/features/eventManagement/model/store', () => {
   const addEvent = createEvent<Event>();
   const updateEvent = createEvent<Event>();
   const removeEvent = createEvent<string>();
-  
+
   return {
     addEvent,
     updateEvent,
@@ -43,7 +43,7 @@ vi.mock('@/features/calendarNavigation/model/store', () => {
   const goToNextDay = createEvent();
   const goToPrevDay = createEvent();
   const goToToday = createEvent();
-  
+
   return {
     setView,
     goToNextMonth,
@@ -60,9 +60,7 @@ describe('calendar', () => {
   it('should update selected date', async () => {
     const initialDate = new Date(2024, 0, 1);
     const scope = fork({
-      values: [
-        [$calendar, { view: 'week' as const, selectedDate: initialDate, events: [] }],
-      ],
+      values: [[$calendar, { view: 'week' as const, selectedDate: initialDate, events: [] }]],
     });
 
     const newDate = new Date(2024, 0, 15);
@@ -88,9 +86,7 @@ describe('calendar', () => {
   it('should handle navigation events', async () => {
     const initialDate = new Date(2024, 0, 1);
     const scope = fork({
-      values: [
-        [$calendar, { view: 'week' as const, selectedDate: initialDate, events: [] }],
-      ],
+      values: [[$calendar, { view: 'week' as const, selectedDate: initialDate, events: [] }]],
     });
 
     // Test next month
@@ -189,7 +185,7 @@ describe('calendar', () => {
     });
 
     const date = new Date(2024, 0, 1);
-    
+
     await allSettled(openEventModal, { scope, params: date });
     await allSettled(closeEventModal, { scope });
 
@@ -202,13 +198,11 @@ describe('calendar', () => {
   it('should go to today', async () => {
     const initialDate = new Date(2024, 0, 1);
     const scope = fork({
-      values: [
-        [$calendar, { view: 'week' as const, selectedDate: initialDate, events: [] }],
-      ],
+      values: [[$calendar, { view: 'week' as const, selectedDate: initialDate, events: [] }]],
     });
 
     await allSettled(goToToday, { scope });
-    
+
     const today = new Date();
     const state = scope.getState($calendar);
     expect(state.selectedDate.getFullYear()).toBe(today.getFullYear());

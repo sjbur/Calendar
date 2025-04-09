@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { 
-  goToNextMonth, 
-  goToPrevMonth, 
-  goToNextWeek, 
-  goToPrevWeek, 
-  goToNextDay, 
-  goToPrevDay, 
-  goToToday 
+import {
+  goToNextMonth,
+  goToPrevMonth,
+  goToNextWeek,
+  goToPrevWeek,
+  goToNextDay,
+  goToPrevDay,
+  goToToday,
 } from '../model/store';
 import { $calendar } from '@/entities/calendar';
 import { launch } from 'effector';
@@ -68,9 +68,9 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'month' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToNextMonth();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getMonth()).toBe(1); // February
@@ -81,9 +81,9 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'month' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToPrevMonth();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getMonth()).toBe(11); // December
@@ -94,9 +94,9 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'week' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToNextWeek();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getDate()).toBe(8); // January 8, 2025
@@ -108,9 +108,9 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'week' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToPrevWeek();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getDate()).toBe(25); // December 25, 2023
@@ -122,9 +122,9 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'day' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToNextDay();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getDate()).toBe(2); // January 2, 2025
@@ -136,9 +136,9 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'day' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToPrevDay();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getDate()).toBe(31); // December 31, 2023
@@ -150,13 +150,13 @@ describe('calendarNavigation', () => {
     const initialDate = new Date(2025, 0, 1); // January 1, 2025
     const mockState = { view: 'month' as CalendarView, selectedDate: initialDate, events: [] };
     vi.mocked($calendar.getState).mockReturnValue(mockState);
-    
+
     goToToday();
-    
+
     expect(launch).toHaveBeenCalledWith($calendar, expect.any(Object));
     const newState = (vi.mocked(launch).mock.calls[0] as any)[1];
     expect(newState.selectedDate.getDate()).toBe(9); // January 9, 2025
     expect(newState.selectedDate.getMonth()).toBe(0);
     expect(newState.selectedDate.getFullYear()).toBe(2025);
   });
-}); 
+});
