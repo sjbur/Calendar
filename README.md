@@ -1,6 +1,6 @@
 # Calendar
 
-A Calendar built with React, Vite, TypeScript, Effector, Storybook and TailwindCSS, following Feature-Sliced Design architecture.
+A Calendar built with React, Vite, TypeScript, Effector, Storybook and TailwindCSS, following Feature-Sliced Design architecture. The project includes comprehensive testing setup with Vitest and React Testing Library.
 
 ## Getting Started
 
@@ -32,6 +32,23 @@ The project follows Feature-Sliced Design architecture:
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 - `npm run format` - Format code with Prettier
+- `npm run test` - Run tests
+- `npm run test:coverage` - Run tests with coverage report
+- `npm run test:ui` - Run tests in browser mode
+
+## Testing
+
+The project uses Vitest as the testing framework with React Testing Library for component testing. Tests are organized alongside the components they test in `__tests__` directories.
+
+### Testing Libraries
+- Vitest - Fast and modern testing framework
+- React Testing Library - Component testing utilities
+- Jest DOM - DOM testing utilities
+
+### Running Tests
+- `npm run test` - Run tests in watch mode
+- `npm run test:coverage` - Run tests with coverage report
+- `npm run test:ui` - Run tests in browser mode
 
 ## Technologies
 
@@ -44,3 +61,6 @@ The project follows Feature-Sliced Design architecture:
 - ESLint
 - Prettier
 - Husky
+- Vitest
+- React Testing Library
+- Jest DOM
