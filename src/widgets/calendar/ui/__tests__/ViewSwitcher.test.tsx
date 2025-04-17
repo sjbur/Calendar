@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ViewSwitcher } from '../ViewSwitcher';
-import { useUnit } from 'effector-react';
 import { $calendar } from '@/entities/calendar';
 import { setView } from '@/features/calendarNavigation';
 
