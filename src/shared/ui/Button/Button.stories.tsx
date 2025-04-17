@@ -53,4 +53,4 @@ export const WithCustomClass: Story = {
     children: 'Custom Button',
     className: 'w-64',
   },
-}; 
+};

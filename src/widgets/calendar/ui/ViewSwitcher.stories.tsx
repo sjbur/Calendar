@@ -22,11 +22,13 @@ The component uses Effector for state management and updates the calendar view b
   },
   decorators: [
     (Story) => (
-      <div style={{ 
-        padding: '2rem',
-        background: '#f5f5f5',
-        minWidth: '400px'
-      }}>
+      <div
+        style={{
+          padding: '2rem',
+          background: '#f5f5f5',
+          minWidth: '400px',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -41,8 +43,9 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The default view switcher showing buttons for Day, Week, and Month views with the current view highlighted.',
+        story:
+          'The default view switcher showing buttons for Day, Week, and Month views with the current view highlighted.',
       },
     },
   },
-}; 
+};

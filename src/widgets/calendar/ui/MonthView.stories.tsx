@@ -24,12 +24,14 @@ The view shows a traditional calendar layout with days arranged in a grid, makin
   },
   decorators: [
     (Story) => (
-      <div style={{ 
-        padding: '2rem',
-        background: '#f5f5f5',
-        minWidth: '800px',
-        minHeight: '600px'
-      }}>
+      <div
+        style={{
+          padding: '2rem',
+          background: '#f5f5f5',
+          minWidth: '800px',
+          minHeight: '600px',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -44,8 +46,9 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The default month view showing the current month with days arranged in a grid and events listed under each day.',
+        story:
+          'The default month view showing the current month with days arranged in a grid and events listed under each day.',
       },
     },
   },
-}; 
+};

@@ -24,12 +24,14 @@ The view shows a 7-day week with a 24-hour timeline for each day, allowing users
   },
   decorators: [
     (Story) => (
-      <div style={{ 
-        padding: '2rem',
-        background: '#f5f5f5',
-        minWidth: '800px',
-        minHeight: '600px'
-      }}>
+      <div
+        style={{
+          padding: '2rem',
+          background: '#f5f5f5',
+          minWidth: '800px',
+          minHeight: '600px',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -44,8 +46,9 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The default week view showing the current week with days as columns and hourly time slots as rows.',
+        story:
+          'The default week view showing the current week with days as columns and hourly time slots as rows.',
       },
     },
   },
-}; 
+};

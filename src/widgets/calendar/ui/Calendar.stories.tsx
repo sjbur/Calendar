@@ -23,12 +23,14 @@ This component serves as the entry point for the calendar functionality and coor
   },
   decorators: [
     (Story) => (
-      <div style={{ 
-        padding: '2rem',
-        background: '#f5f5f5',
-        minWidth: '800px',
-        minHeight: '600px'
-      }}>
+      <div
+        style={{
+          padding: '2rem',
+          background: '#f5f5f5',
+          minWidth: '800px',
+          minHeight: '600px',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -43,8 +45,9 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The default calendar view showing the current month with the view switcher and the selected view displayed below.',
+        story:
+          'The default calendar view showing the current month with the view switcher and the selected view displayed below.',
       },
     },
   },
-}; 
+};

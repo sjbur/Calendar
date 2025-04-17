@@ -54,4 +54,4 @@ export const DateTime: Story = {
     label: 'Date and Time',
     type: 'datetime-local',
   },
-}; 
+};

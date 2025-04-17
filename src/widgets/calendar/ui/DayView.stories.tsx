@@ -23,12 +23,14 @@ The view shows a 24-hour timeline with events positioned according to their star
   },
   decorators: [
     (Story) => (
-      <div style={{ 
-        padding: '2rem',
-        background: '#f5f5f5',
-        minWidth: '800px',
-        minHeight: '600px'
-      }}>
+      <div
+        style={{
+          padding: '2rem',
+          background: '#f5f5f5',
+          minWidth: '800px',
+          minHeight: '600px',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -43,8 +45,9 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The default day view showing the current day with hourly time slots and any events scheduled for that day.',
+        story:
+          'The default day view showing the current day with hourly time slots and any events scheduled for that day.',
       },
     },
   },
-}; 
+};
