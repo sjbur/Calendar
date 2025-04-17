@@ -3,7 +3,8 @@ import { $calendar } from '@/entities/calendar';
 import { setView } from '@/features/calendarNavigation';
 
 export const ViewSwitcher = () => {
-  const [{ view }, setViewFn] = useUnit([$calendar, setView]);
+  const { view } = useUnit($calendar);
+  const setViewFn = useUnit(setView);
 
   return (
     <div className="flex gap-4">
