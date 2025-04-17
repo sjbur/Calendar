@@ -1,15 +1,6 @@
 # Calendar
 
-A Calendar built with React, Vite, TypeScript, Effector, and TailwindCSS, following Feature-Sliced Design architecture.
-
-## Features
-
-- Week, Month, and Day views
-- Event management
-- Modern UI with TailwindCSS
-- State management with Effector
-- TypeScript support
-- Feature-Sliced Design architecture
+A Calendar built with React, Vite, TypeScript, Effector, Storybook and TailwindCSS, following Feature-Sliced Design architecture.
 
 ## Getting Started
 
@@ -48,6 +39,7 @@ The project follows Feature-Sliced Design architecture:
 - Vite
 - TypeScript
 - Effector
+- Storybook
 - TailwindCSS
 - ESLint
 - Prettier
