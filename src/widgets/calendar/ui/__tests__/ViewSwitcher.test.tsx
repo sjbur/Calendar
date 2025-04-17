@@ -3,14 +3,22 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ViewSwitcher } from '../ViewSwitcher';
 import { useUnit } from 'effector-react';
+import { $calendar } from '@/entities/calendar';
+import { setView } from '@/features/calendarNavigation';
+
+// Create hoisted mock functions
+const mockSetView = vi.hoisted(() => vi.fn());
 
 // Mock effector-react module
 vi.mock('effector-react', () => ({
-  useUnit: vi.fn((stores) => {
-    if (Array.isArray(stores)) {
-      return [{ view: 'week' }, vi.fn()];
+  useUnit: vi.fn((store) => {
+    if (store === $calendar) {
+      return { view: 'week' };
     }
-    return { view: 'week' };
+    if (store === setView) {
+      return mockSetView;
+    }
+    return {};
   }),
 }));
 
@@ -22,12 +30,9 @@ vi.mock('@/entities/calendar', () => ({
 }));
 
 // Mock calendarNavigation module
-vi.mock('@/features/calendarNavigation', () => {
-  const setView = vi.fn();
-  return {
-    setView,
-  };
-});
+vi.mock('@/features/calendarNavigation', () => ({
+  setView: mockSetView,
+}));
 
 describe('ViewSwitcher', () => {
   beforeEach(() => {
@@ -53,6 +58,6 @@ describe('ViewSwitcher', () => {
     render(<ViewSwitcher />);
 
     fireEvent.click(screen.getByText('Month'));
-    expect(vi.mocked(useUnit).mock.results[0].value[1]).toHaveBeenCalledWith('month');
+    expect(mockSetView).toHaveBeenCalledWith('month');
   });
 });
